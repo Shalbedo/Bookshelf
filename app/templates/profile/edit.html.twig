@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your profile{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center mt-3">
+    <div class="form-group container float-left">
+        <h1>Your profile</h1>
+        {{ form_start(profileForm) }}
+        <div class="label">
+            {{ form_label(profileForm.username, 'Choose new username:') }}
+        </div>
+        <div class="input">
+            {{ form_widget(profileForm.username) }}
+        </div>
+        <div class="label">
+            {{ form_label(profileForm.newPassword, 'Choose new password:') }}
+        </div>
+        <div class="input">
+            {{ form_widget(profileForm.newPassword) }}
+        </div>
+        <div class="label">
+            {{ form_label(profileForm.password, 'Old password:') }}
+        </div>
+        <div class="input">
+            {{ form_widget(profileForm.password) }}
+        </div>
+        <div class="col-md-1">
+            <input type='submit' name='submit' value='Save' class='form-control'></input>
+        </div>
+        {{ form_end(profileForm) }}
+    </div>
+
+    <div class="container">
+        Username: {{ user.username }}<br>
+        Email: {{ user.email }}<br>
+        Balance: {{ user.balance }}
+    </div>
+</div>
+{% endblock %}

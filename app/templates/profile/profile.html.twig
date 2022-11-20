@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your profile{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+        You're an ADMIN, bro<br>
+    {% endif %}
+    <a class="button active" aria-current="page" href={{ path('app_replenish_balance') }}>Replanish balance</a><br>
+    <a class="button active" aria-current="page" href={{ path('app_profile_edit') }}>Edit profile</a>
+    <div class="container">
+        Username: {{ user.username }}<br>
+        Email: {{ user.email }}<br>
+        Balance: {{ user.balance }}$
+    </div>
+
+    <h1>Purchase history</h1>
+{% for order in orders.result %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ order.id }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ order.status }}</td>
+            </tr>
+            <tr>
+                <th>Estimated date</th>
+                <td>{{ order.estimatedDate| date('Y.m.d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ order.price }}$</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ order.address }}</td>
+            </tr>
+        </tbody>
+    </table><br> 
+{% endfor %}
+    {% include 'utils/paginator.html.twig' with { 'p': orders} %}
+{% endblock %}

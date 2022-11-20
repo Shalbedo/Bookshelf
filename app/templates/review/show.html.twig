@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Review{% endblock %}
+
+{% block body %}
+    <h1>Review №{{ review.id }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Book</th>
+                <td>{{ review.book.title }}</td>
+            </tr>
+            <tr>
+                <th>Review</th>
+                <td>{{ review.text }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_review', {'book_id': review.id}) }}">back to list</a>
+{% endblock %}

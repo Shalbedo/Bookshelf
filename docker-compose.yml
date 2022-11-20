@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:latest
+    restart: on-failure
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file: .env
+    ports:
+      - "5432:5432"
+    networks:
+      - bridge
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ./app/:/var/www/app
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - db
+    networks:
+      - bridge
+  adminer:
+    image: adminer
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - bridge
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    volumes:
+      - ./app/:/var/www/app/
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8000:8000"
+    depends_on:
+      - php
+      - db
+    networks:
+      - bridge
+
+networks:
+  bridge:
+    driver: bridge

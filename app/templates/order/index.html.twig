@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order{% endblock %}
+
+{% block body %}
+    {{ form_start(orderForm) }}
+    <div class="label">
+        {{ form_label(orderForm.address, 'Choose delivery address:') }}
+    </div>
+    <div class="input">
+        {{ form_widget(orderForm.address) }} <p>If the address is not correct, then the support service will write to you</p>
+    </div>
+    <div class="label">
+        {{ form_label(orderForm.agreement, 'Our terms:') }}
+    </div>
+    <div class="input">
+        {{ form_widget(orderForm.agreement) }}
+    </div>
+    <div class="col-md-1">
+        <input type='submit' name='submit' value='Order' class='form-control'></input>
+    </div>
+    {{ form_end(orderForm) }}
+{% endblock %}

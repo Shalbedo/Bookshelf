@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Balance{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center mt-3">
+    <div class="form-group container float-left">
+        <h1>Your profile</h1>
+        {{ form_start(balanceForm) }}
+        <div class="label">
+            {{ form_label(balanceForm.balance, 'Choose the balance you want to add:') }}
+        </div>
+        <div class="input">
+            {{ form_widget(balanceForm.balance) }}
+        </div>
+        <div class="col-md-1">
+            <input type='submit' name='submit' value='Save' class='form-control'></input>
+        </div>
+        {{ form_end(balanceForm) }}
+    </div>
+</div>
+
+    <div class="container">
+        Balance: {{ user.balance }}
+    </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Main{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class = "col-md-3 container">
+{% for book in books.result %}
+    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+            <h3 class="mb-0">{{ book.title }}</h3>
+            <div class="mb-1 text-muted">left in stock: {{ book.amount }}</div>
+            <p class="card-text mb-auto">{{ book.description }}</p>
+            <a href="{{ path('app_book_page', {'id': book.id}) }}" class="stretched-link">Open</a>
+        </div>
+    </div>   
+{% endfor %}
+</div>     
+{% include 'utils/paginator.html.twig' with { 'p': books} %}
+{% endblock %}

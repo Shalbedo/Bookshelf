@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Review{% endblock %}
+
+{% block body %}
+
+<div class="form-group container-left float-left">
+    {{ form_start(reviewForm) }}
+        <div class="label">
+            {{ form_label(reviewForm.text, 'Write a review:') }}
+        </div>
+        <div class="input">
+            {{ form_widget(reviewForm.text) }}
+        </div>
+        <div class="label">
+            {{ form_label(reviewForm.rating, 'Rate this book:') }}
+        </div>
+        <div class="input">
+            {{ form_widget(reviewForm.rating) }}
+        </div>
+        <div class="col-md-1">
+            <input type='submit' name='submit' value='Save' class='form-control'></input>
+        </div>
+    {{ form_end(reviewForm) }}
+</div>
+<div class = "col-md-3 container">
+    <h2>Latest reviews</h2>
+    <table class="table">
+        <tbody>
+            {% for review in reviews.result %}
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h3 class="mb-0">{{ review.owner.username }}</h3>
+                        <p class="card-text mb-auto">{{ review.text }}</p>
+                        <a href="{{ path('app_review_show', {'id': review.id}) }}" class="stretched-link">Open</a>
+                    </div>
+                </div>   
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include 'utils/paginator.html.twig' with { 'p': reviews} %}
+{% endblock %}
