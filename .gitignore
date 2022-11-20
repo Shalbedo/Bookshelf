@@ -1,0 +1,6 @@
+.idea
+postgres
+/docker/php/Dockerfile.dev
+docker-compose.override.yml
+/docker/php/dev.php.ini
+/es/
