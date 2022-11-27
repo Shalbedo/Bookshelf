@@ -22,8 +22,8 @@ class OrderController extends AbstractController
         $user = $this->getUser();
         $form = $this->createForm(OrderType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($user->getBalance() <= ( $book = $bookRepository->findOneBy(['id' => $request->query->get('book_id')]) )->getPrice()) {
                 throw new Exception("You don't have enough balance");
             }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,12 +19,9 @@ class ProfileController extends AbstractController
     #[Route('/', name: 'app_profile')]
     public function index(OrderRepository $orderRepository, Request $request): Response
     {
-        $page = $request->get('page', 1);
-        $user = $this->getUser();
-        
         return $this->render('profile/profile.html.twig', [
-            'user' => $user,
-            'orders' => $orderRepository->getList($page, $user)
+            'user' => $this->getUser(),
+            'orders' => $orderRepository->getList($request->query->get('page', 1), $this->getUser())
         ]);
     }
 
@@ -36,7 +34,6 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user->setBalance($user->getBalance() + $form->getData()['balance']);
             $em->flush();
 
@@ -58,12 +55,11 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            if($form->getData()->getUsername()) {
+            if ($form->getData()->getUsername()) {
                 $user->setUsername($form->getData()->getUsername());
             }
 
-            if($form->get('newPassword')->getData()) {
+            if ($form->get('newPassword')->getData()) {
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
                         $user,

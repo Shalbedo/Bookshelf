@@ -50,17 +50,17 @@ class OrderRepository extends ServiceEntityRepository
         return (new Paginator($qb))->pagination($page);
     }
 
-    public function isUserHaveBook(User $user, Book $book): ?Order
+    public function findDeliveredOrderByUserAndBook(int $userId, int $bookId): ?Order
     {
         return $this->createQueryBuilder('o')
-        ->innerJoin('o.book', 'b')
-        ->andWhere('o.status = :status')
-        ->andWhere('o.owner = :userId')
-        ->andWhere('b.id = :bookId')
-        ->setParameter('userId', $user->getId())
-        ->setParameter('bookId', $book->getId())
-        ->setParameter('status', Order::STATUS_RECEIVED)
-        ->getQuery()
-        ->getOneOrNullResult();
+            ->innerJoin('o.book', 'b')
+            ->andWhere('o.status = :status')
+            ->andWhere('o.owner = :user')
+            ->andWhere('b.id = :book')
+            ->setParameter('user', $userId)
+            ->setParameter('book', $bookId)
+            ->setParameter('status', Order::STATUS_RECEIVED)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }
