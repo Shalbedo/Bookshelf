@@ -73,14 +73,13 @@ class BookController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {
             $bookRepository->remove($book, true);
         }
-        //dick
+
         return $this->redirectToRoute('app_book_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/page', name: 'app_book_page', methods: ['GET'])]
     public function page(Book $book, ReviewRepository $reviewRepository): Response
     {
-
         return $this->render('book/page.html.twig', [
             'book' => $book,
             'user' => $this->getUser(),

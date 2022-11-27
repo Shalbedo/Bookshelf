@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/main', name: 'app_main')]
+    #[Route('/', name: 'app_main')]
     public function index(BookRepository $bookRepository, Request $request): Response
     {
         $page = $request->get('page', 1);
